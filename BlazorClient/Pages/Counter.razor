@@ -1,0 +1,50 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="Login">Click me</button>
+
+<button class="btn btn-primary" @onclick="GetWeatherForescast">Forecast</button>
+
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private async Task Login()
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri("https://localhost:7133/");
+
+        var content = new StringContent("{ \"userId\" : \"robelto\"}", System.Text.Encoding.UTF8, "application/json");
+        var response = await client.PostAsync("Account/login",  content);
+
+    }
+
+
+    private async Task GetWeatherForescast()
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri("https://localhost:7133/");
+
+        try
+        {
+            var response = await client.GetStringAsync("WeatherForecast");
+        }
+        catch(Exception ex)
+        {
+            string s = ex.Message; 
+        }
+
+    }
+
+
+}

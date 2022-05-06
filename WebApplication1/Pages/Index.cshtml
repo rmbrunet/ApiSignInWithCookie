@@ -1,0 +1,71 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+    <button class="btn-primary" onclick="myModule.login()">Log me in</button>
+    <button class="btn-primary" onclick="myModule.getForecast()">Get Forecast</button>
+</div>
+
+@section Scripts
+{
+<script>
+    var myModule = (function()
+    {
+        return {
+            login : call_logmein,
+            getForecast : call_getForecast
+        };
+        
+        function call_logmein(){
+
+            const url = 'https://localhost:7133/Account/login';
+
+            const user = {
+                userId : 'robelto'
+            };
+
+            const options = {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify(user),
+                headers: {
+                    'Content-Type' : 'application/json'
+                }
+            };
+
+
+            fetch(url, options)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    alert(err);
+                });
+            }
+
+        function call_getForecast(){
+            const url = 'https://localhost:7133/WeatherForecast';
+
+            const options = {
+                method: 'GET',
+                credentials: 'include',
+            };
+
+
+            fetch(url, options)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        alert(err);
+                    });
+        }
+    })();
+</script>
+}
+
